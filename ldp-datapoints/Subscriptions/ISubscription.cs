@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LDPDatapoints.Messages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace LDPDatapoints.Subscriptions
 {
     public interface ISubscription<T>
     {
-        void SendMessage(ISubscriptionMessage message);
+        void SendMessage(SubscriptionMessage message);
     }
 }

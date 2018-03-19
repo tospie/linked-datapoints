@@ -8,5 +8,6 @@ namespace LDPDatapoints.Messages
 {
     class SubscriptionMessage
     {
+
     }
 }
