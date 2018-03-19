@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,19 +35,20 @@ namespace LDPDatapoints
 
         private void listen()
         {
-            while (httpListener.IsListening)
+            while (true)
             {
-                httpListener.GetContextAsync().ContinueWith((task) =>
-                {
-                    handleRequest(task);
-                });
+                var context = httpListener.GetContext();
+                handleRequest(context);
             }
         }
 
-        private async void handleRequest(Task<HttpListenerContext> task)
+        private void handleRequest(HttpListenerContext context)
         {
-            HttpListenerContext context = await task;
-            OnGet?.Invoke(this, new HttpEventArgs(context.Request, context.Response));
+            if (context.Request.HttpMethod == HttpMethod.Get.Method)
+            {
+                OnGet?.Invoke(this, new HttpEventArgs(context.Request, context.Response));
+            }
+
         }
     }
 }
