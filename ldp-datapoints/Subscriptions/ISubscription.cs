@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LDPDatapoints.Subscriptions
 {
-    public interface ISubscription<T> : IObserver<T>
+    public interface ISubscription<T>
     {
         void SendMessage(ISubscriptionMessage message);
     }

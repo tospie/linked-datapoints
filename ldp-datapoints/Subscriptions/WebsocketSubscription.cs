@@ -17,21 +17,6 @@ namespace LDPDatapoints.Subscriptions
             webSocket = new WebSocket(websocketUri);
         }
 
-        public void OnCompleted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnError(Exception error)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnNext(T value)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SendMessage(ISubscriptionMessage message)
         {
             webSocket.Send(JsonConvert.SerializeObject(message));

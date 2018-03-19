@@ -19,21 +19,6 @@ namespace LDPDatapoints.Subscriptions
             callbackUris = new List<string>();
         }
 
-        public void OnCompleted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnError(Exception error)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnNext(T value)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SendMessage(ISubscriptionMessage message)
         {
             StringContent messageAsString = new StringContent(JsonConvert.SerializeObject(message));

@@ -5,7 +5,7 @@ using VDS.RDF.Writing;
 
 namespace LDPDatapoints
 {
-    public abstract class Resource<T> where T: IObservable<T>
+    public abstract class Resource<T> where T : IObservable<T>
     {
         Graph RDFGraph { get; }
         CompressingTurtleWriter TtlWriter { get; }
@@ -13,7 +13,8 @@ namespace LDPDatapoints
         ISubscription<T>[] subscriptions { get; }
 
         private T _value;
-        public T Value {
+        public T Value
+        {
             get { return _value; }
             set {  /* .. trigger update event */ }
         }
@@ -21,7 +22,6 @@ namespace LDPDatapoints
         protected Resource(T value, string route)
         {
             // Validate(route);
-            Value.Subscribe(new WebHookSubscription<T>("blabla"));
             TtlWriter = new CompressingTurtleWriter();
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += (o, e) => { };
