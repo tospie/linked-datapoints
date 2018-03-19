@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace LDPDatapoints
 {
-    class HttpRequestListener
+    public class HttpEventArgs : EventArgs
+    {
+        public HttpListenerRequest request;
+        public HttpListenerResponse response;
+        public HttpEventArgs(HttpListenerRequest request, HttpListenerResponse response)
+        {
+            this.request = request;
+            this.response = response;
+        }
+    }
+
+    public class HttpRequestListener
     {
         private HttpListener httpListener;
 
-        public event EventHandler OnGet;
+        public event EventHandler<HttpEventArgs> OnGet;
 
         public HttpRequestListener(string path)
         {
@@ -35,6 +46,7 @@ namespace LDPDatapoints
         private async void handleRequest(Task<HttpListenerContext> task)
         {
             HttpListenerContext context = await task;
+            OnGet?.Invoke(this, new HttpEventArgs(context.Request, context.Response));
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using LDPDatapoints.Subscriptions;
 using System;
+using System.Net;
+using System.Text;
 using VDS.RDF;
 using VDS.RDF.Writing;
 
 namespace LDPDatapoints
 {
-    public abstract class Resource<T> where T: IObservable<T>
+    public class Resource<T>
     {
         Graph RDFGraph { get; }
         CompressingTurtleWriter TtlWriter { get; }
@@ -21,10 +23,24 @@ namespace LDPDatapoints
         protected Resource(T value, string route)
         {
             // Validate(route);
-            Value.Subscribe(new WebHookSubscription<T>("blabla"));
+            Value.Subscribe(new WebHookSubscription<U>("blabla"));
             TtlWriter = new CompressingTurtleWriter();
             RequestListener = new HttpRequestListener(route);
-            RequestListener.OnGet += (o, e) => { };
+            RequestListener.OnGet += onGet;
         }
+
+        public virtual void onGet(object sender, HttpEventArgs e)
+        {
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            TtlWriter.Save(RDFGraph, sw);
+            string graph = sw.ToString();
+
+            HttpListenerRequest request = e.request;
+            HttpListenerResponse response = e.response;
+            response.OutputStream.Write(Encoding.UTF8.GetBytes(graph), 0, graph.Length);
+            response.Close();
+        }
+
+        public Resource() { }
     }
 }
