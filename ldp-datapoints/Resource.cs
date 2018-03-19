@@ -9,21 +9,20 @@ namespace LDPDatapoints
 {
     public class Resource<T>
     {
-        Graph RDFGraph { get; }
-        CompressingTurtleWriter TtlWriter { get; }
-        HttpRequestListener RequestListener { get; }
-        ISubscription<T>[] subscriptions { get; }
+        protected Graph RDFGraph { get; }
+        protected CompressingTurtleWriter TtlWriter { get; }
+        protected HttpRequestListener RequestListener { get; }
+        protected ISubscription<T>[] subscriptions { get; }
 
         private T _value;
-        public T Value {
+        public T Value
+        {
             get { return _value; }
             set {  /* .. trigger update event */ }
         }
 
         protected Resource(T value, string route)
         {
-            // Validate(route);
-            Value.Subscribe(new WebHookSubscription<U>("blabla"));
             TtlWriter = new CompressingTurtleWriter();
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += onGet;
