@@ -11,6 +11,7 @@ namespace LDPDatapoints.Resources
     {
         protected CollectionResource(T value, string route) : base(value, route)
         {
+            value.CollectionChanged += (o,e) => { };
         }
     }
 }
