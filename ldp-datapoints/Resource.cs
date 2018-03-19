@@ -5,7 +5,7 @@ using VDS.RDF.Writing;
 
 namespace LDPDatapoints
 {
-    public abstract class Resource<T> where T : IObservable<T>
+    public abstract class Resource<T>
     {
         Graph RDFGraph { get; }
         CompressingTurtleWriter TtlWriter { get; }
@@ -16,7 +16,7 @@ namespace LDPDatapoints
         public T Value
         {
             get { return _value; }
-            set {  /* .. trigger update event */ }
+            set { _value = value; /* .. trigger update event */ }
         }
 
         protected Resource(T value, string route)
@@ -25,6 +25,7 @@ namespace LDPDatapoints
             TtlWriter = new CompressingTurtleWriter();
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += (o, e) => { };
+            var t = _value.GetType();
         }
     }
 }
