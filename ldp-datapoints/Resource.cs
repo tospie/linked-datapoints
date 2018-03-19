@@ -1,5 +1,7 @@
 ﻿using LDPDatapoints.Subscriptions;
 using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Net;
 using System.Text;
 using VDS.RDF;
@@ -15,21 +17,21 @@ namespace LDPDatapoints
         ISubscription<T>[] subscriptions { get; }
 
         private T _value;
-        public T Value {
+        public T Value
+        {
             get { return _value; }
             set {  /* .. trigger update event */ }
         }
 
-        protected Resource(T value, string route)
+        public Resource(T value, string route)
         {
-            // Validate(route);
-            Value.Subscribe(new WebHookSubscription<U>("blabla"));
             TtlWriter = new CompressingTurtleWriter();
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += onGet;
+            RDFGraph = buildGraph(value);
         }
 
-        public virtual void onGet(object sender, HttpEventArgs e)
+        protected virtual void onGet(object sender, HttpEventArgs e)
         {
             System.IO.StringWriter sw = new System.IO.StringWriter();
             TtlWriter.Save(RDFGraph, sw);
@@ -41,6 +43,47 @@ namespace LDPDatapoints
             response.Close();
         }
 
-        public Resource() { }
+        protected virtual Graph buildGraph(T value)
+        {
+            var graph = new Graph();
+            graph.CreateLiteralNode(value.ToString());
+            return graph;
+        }
+    }
+
+    public abstract class EventResource<T> : Resource<T>
+    {
+        protected EventResource(T value, string route) : base(value, route) { }
+
+        public abstract void onChanged(object sender, EventArgs e);
+
+    }
+
+    public class ValueResource<T> : EventResource<T> where T : INotifyPropertyChanged
+    {
+        public ValueResource(T value, string route) : base(value, route)
+        {
+            value.PropertyChanged += onChanged;
+        }
+
+        public override void onChanged(object sender, EventArgs e)
+        {
+            PropertyChangedEventArgs eventArgs = (PropertyChangedEventArgs)e;
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CollectionResource<T> : EventResource<T> where T : INotifyCollectionChanged
+    {
+        public CollectionResource(T value, string route) : base(value, route)
+        {
+            value.CollectionChanged += onChanged;
+        }
+
+        public override void onChanged(object sender, EventArgs e)
+        {
+            NotifyCollectionChangedEventArgs eventArgs = (NotifyCollectionChangedEventArgs)e;
+            throw new NotImplementedException();
+        }
     }
 }
