@@ -12,7 +12,7 @@ namespace LDPDatapoints.Resources
 {
     public abstract class SubscriptionResource<T> : Resource
     {
-        protected Graph RDFGraph { get; set; }        
+        protected Graph RDFGraph { get; set; }
         protected T _value;
 
         protected List<ISubscription> Subscriptions { get; }
@@ -21,7 +21,8 @@ namespace LDPDatapoints.Resources
         public virtual T Value
         {
             get { return _value; }
-            set {
+            set
+            {
                 _value = value;
                 // this way, ValueResource would not need to override this setter
                 // but this does likely not comply with the implementation of CollectionResource(?)
@@ -37,9 +38,9 @@ namespace LDPDatapoints.Resources
             {
                 var typeRoute = "http://127.0.0.1:3333/types/" + typeof(T).Name.ToString() + "/";
                 new TypeResource(typeof(T), typeRoute);
-                Console.WriteLine("Route: "+ typeRoute);
+                Console.WriteLine("Route: " + typeRoute);
             }
-            catch(HttpListenerException)
+            catch (HttpListenerException)
             {
                 Console.Error.WriteLine("Route already taken. TypeResource should exist.");
             }
