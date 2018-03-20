@@ -9,7 +9,7 @@ using WebSocketSharp;
 
 namespace LDPDatapoints.Subscriptions
 {
-    public class WebsocketSubscription<T> : ISubscription<T>
+    public class WebsocketSubscription : ISubscription
     {
         private WebSocket webSocket;
 
