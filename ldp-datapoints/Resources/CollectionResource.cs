@@ -32,14 +32,16 @@ namespace LDPDatapoints.Resources
             var _valueAsCollection = _value as Collection<U>;
             if (collectionHasPropertyElements)
             {
+                var count = 0;
                 foreach (var i in e.NewItems)
                 {
                     var item = i as INotifyPropertyChanged;
                     item.PropertyChanged += (o, p) =>
                     {
                         var index = _valueAsCollection.IndexOf((U)o);
-                        handleCollectionItemPropertyChanged((U)o, index, p.PropertyName);
+                        handleCollectionItemPropertyChanged((U)o, e.NewStartingIndex + count, p.PropertyName);
                     };
+                    count++;
                 }
             }
             NotifySubscriptions(sender, e);
@@ -47,7 +49,6 @@ namespace LDPDatapoints.Resources
 
         private void handleCollectionItemPropertyChanged(U sender, int index, string property)
         {
-            var collection = _value as ICollection<U>;
             CollectionUpdateMessage m = new CollectionUpdateMessage();
             m.IndexChanged = index;
             m.newObject = sender;
