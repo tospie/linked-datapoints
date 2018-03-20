@@ -15,6 +15,7 @@ namespace LDPDatapoints
         CompressingTurtleWriter TtlWriter { get; }
         HttpRequestListener RequestListener { get; }
         ISubscription<T>[] subscriptions { get; }
+        string route { get; }
 
         private T _value;
         public T Value
@@ -25,6 +26,7 @@ namespace LDPDatapoints
 
         public Resource(T value, string route)
         {
+            this.route = route;
             TtlWriter = new CompressingTurtleWriter();
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += onGet;
