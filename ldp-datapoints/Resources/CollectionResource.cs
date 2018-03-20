@@ -10,6 +10,25 @@ namespace LDPDatapoints.Resources
     public class CollectionResource<T> : Resource<T> where T : INotifyCollectionChanged
     {
         protected CollectionResource(T value, string route) : base(value, route)
+
+        private void handleCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var _valueAsCollection = _value as Collection<U>;
+            if (collectionHasPropertyElements)
+            {
+                foreach (var i in e.NewItems)
+                {
+                    var item = i as INotifyPropertyChanged;
+                    item.PropertyChanged += (o, p) =>
+                    {
+                        var index = _valueAsCollection.IndexOf((U)o);
+                        handleCollectionItemPropertyChanged((U)o, index, p.PropertyName);
+                    };
+                }
+            }
+            NotifySubscriptions(sender, e);
+        }
+
         {
             value.CollectionChanged += (o,e) => { };
         }
