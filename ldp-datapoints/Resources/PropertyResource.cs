@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LDPDatapoints.Messages;
+using LDPDatapoints.Subscriptions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,11 +13,19 @@ namespace LDPDatapoints.Resources
     {
         public PropertyResource(T value, string route) : base(value, route)
         {
+            _value.PropertyChanged += NotifySubscriptions;
         }
 
         protected override void NotifySubscriptions(object sender, EventArgs e)
         {
-            base.NotifySubscriptions(sender, e);
+            var args = e as PropertyChangedEventArgs;
+            object newValue = null;
+            _value.GetType().GetProperty(args.PropertyName).GetValue(newValue);
+            string message = new PropertyUpdateMessage(args.PropertyName, newValue).ToString();
+            foreach (ISubscription s in Subscriptions)
+            {
+                s.SendMessage(message);
+            }
         }
     }
 }
