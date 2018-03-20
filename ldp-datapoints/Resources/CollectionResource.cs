@@ -29,6 +29,19 @@ namespace LDPDatapoints.Resources
             NotifySubscriptions(sender, e);
         }
 
+        private void handleCollectionItemPropertyChanged(U sender, int index, string property)
+        {
+            var collection = _value as ICollection<U>;
+            CollectionUpdateMessage m = new CollectionUpdateMessage();
+            m.IndexChanged = index;
+            m.newObject = sender;
+            m.ObjectAdded = false;
+            foreach (ISubscription s in Subscriptions)
+            {
+                s.SendMessage(m);
+            }
+        }
+
         {
             value.CollectionChanged += (o,e) => { };
         }
