@@ -3,6 +3,8 @@ using System;
 using System.Xml.Serialization;
 using System.Xml;
 using System.Xml.Schema;
+using LDPDatapoints.Subscriptions;
+using System.Collections.ObjectModel;
 
 namespace SimpleResourceServer
 {
@@ -73,9 +75,29 @@ namespace SimpleResourceServer
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            ValueResource<XmlInt> testResource = new ValueResource<XmlInt>(new XmlInt(3), "http://127.0.0.1:3333/int/");
+            ValueResource<int> testResource = new ValueResource<int>(3, "http://127.0.0.1:3333/int/");
             ValueResource<XmlBool> test2 = new ValueResource<XmlBool>(new XmlBool(true), "http://127.0.0.1:3333/bool/");
-            Console.WriteLine("Eingabe beendet Programm...");
+
+            WebsocketSubscription wsSubscription = new WebsocketSubscription("ws://stuff");
+            WebHookSubscription whSubscription = new WebHookSubscription("http://test");
+            ObservableCollection<int> c = new ObservableCollection<int>();
+            CollectionResource<ObservableCollection<int>, int> r = new CollectionResource<ObservableCollection<int>, int>(c, "http://localhost:12345/c/");
+
+            testResource.Subscribe(whSubscription);
+            testResource.Subscribe(wsSubscription);
+
+            Console.WriteLine("Any key to change int to 12 ...");
+            Console.ReadKey();
+            testResource.Value = 12;
+
+            r.Subscribe(whSubscription);
+            r.Subscribe(wsSubscription);
+
+            Console.WriteLine("Any key to add 12 to Collection...");
+            Console.ReadKey();
+            r.Value.Add(12);
+
+            Console.WriteLine("Any key to close application...");
             Console.ReadKey();
         }
     }
