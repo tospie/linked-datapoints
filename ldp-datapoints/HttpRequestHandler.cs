@@ -48,7 +48,6 @@ namespace LDPDatapoints
             {
                 OnGet?.Invoke(this, new HttpEventArgs(context.Request, context.Response));
             }
-
         }
     }
 }
