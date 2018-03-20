@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace LDPDatapoints.Resources
 {
-    class PropertyResource<T> : Resource<T> where T : INotifyPropertyChanged
+    class PropertyResource<T> : SubscriptionResource<T> where T : INotifyPropertyChanged
     {
         public PropertyResource(T value, string route) : base(value, route)
         {
@@ -22,6 +22,11 @@ namespace LDPDatapoints.Resources
             {
                 s.SendMessage(message);
             }
+        }
+
+        protected override void onGet(object sender, HttpEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
