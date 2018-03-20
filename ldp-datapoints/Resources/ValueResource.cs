@@ -3,16 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
+using VDS.RDF;
+using VDS.RDF.Writing;
 
 namespace LDPDatapoints.Resources
 {
     public class ValueResource<T> : SubscriptionResource<T> where T : IXmlSerializable, new()
     {
-
-        protected XmlSerializer xmlSerializer;
+        XmlSerializer xmlSerializer;
+        XmlWriter xmlWriter;
 
         public override T Value
         {
@@ -29,6 +33,11 @@ namespace LDPDatapoints.Resources
         {
             System.IO.StringWriter stringWriter = new System.IO.StringWriter();
             xmlSerializer = new XmlSerializer(typeof(T));
+            xmlWriter = XmlWriter.Create(stringWriter);
+
+            Value = value;
+        }
+
         protected override void onGet(object sender, HttpEventArgs e)
         {
             HttpListenerRequest request = e.request;
