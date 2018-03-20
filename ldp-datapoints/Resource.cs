@@ -75,40 +75,4 @@ namespace LDPDatapoints
             return graph;
         }
     }
-
-    public abstract class EventResource<T> : Resource<T>
-    {
-        protected EventResource(T value, string route) : base(value, route) { }
-
-        public abstract void onChanged(object sender, EventArgs e);
-
-    }
-
-    public class ValueResource<T> : EventResource<T> where T : INotifyPropertyChanged
-    {
-        public ValueResource(T value, string route) : base(value, route)
-        {
-            value.PropertyChanged += onChanged;
-        }
-
-        public override void onChanged(object sender, EventArgs e)
-        {
-            PropertyChangedEventArgs eventArgs = (PropertyChangedEventArgs)e;
-            throw new NotImplementedException();
-        }
-    }
-
-    public class CollectionResource<T> : EventResource<T> where T : INotifyCollectionChanged
-    {
-        public CollectionResource(T value, string route) : base(value, route)
-        {
-            value.CollectionChanged += onChanged;
-        }
-
-        public override void onChanged(object sender, EventArgs e)
-        {
-            NotifyCollectionChangedEventArgs eventArgs = (NotifyCollectionChangedEventArgs)e;
-            throw new NotImplementedException();
-        }
-    }
 }
