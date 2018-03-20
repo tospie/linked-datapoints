@@ -40,7 +40,7 @@ namespace LDPDatapoints
             response.Close();
         }
 
-        protected virtual void NotifySubscriptions(this object sender, EventArgs e)
+        protected virtual void NotifySubscriptions(object sender, EventArgs e)
         {
             throw new NotImplementedException("Instance of Resource<T> does not implement notification of subscriptions");
         }
