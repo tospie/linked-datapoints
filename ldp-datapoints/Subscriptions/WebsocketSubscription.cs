@@ -30,7 +30,7 @@ namespace LDPDatapoints.Subscriptions
 
         public void SendMessage(string message)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("[WEBSOCKET]\n_______________________\n\n " + message + "\n\n");
         }
     }
 }
