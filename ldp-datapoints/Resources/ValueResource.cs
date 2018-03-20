@@ -13,7 +13,6 @@ namespace LDPDatapoints.Resources
     {
 
         protected XmlSerializer xmlSerializer;
-        protected System.IO.StringWriter stringWriter;
 
         public override T Value
         {
@@ -27,12 +26,13 @@ namespace LDPDatapoints.Resources
 
         public ValueResource(T value, string route) : base(value, route)
         {
+            System.IO.StringWriter stringWriter = new System.IO.StringWriter();
             xmlSerializer = new XmlSerializer(typeof(T));
-            stringWriter = new System.IO.StringWriter();
         }
 
         protected override void NotifySubscriptions(object sender, EventArgs e)
         {
+            System.IO.StringWriter stringWriter = new System.IO.StringWriter();
             xmlSerializer.Serialize(stringWriter, _value);
             string valueAsXmlString = stringWriter.ToString();
             foreach (ISubscription s in Subscriptions)
