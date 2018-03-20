@@ -1,7 +1,5 @@
 ﻿using LDPDatapoints;
-using LDPDatapoints.Resources;
 using System;
-using System.Collections.ObjectModel;
 
 namespace SimpleResourceServer
 {
@@ -10,9 +8,10 @@ namespace SimpleResourceServer
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            ObservableCollection<int> testCollection = new ObservableCollection<int>();
-            CollectionResource<ObservableCollection<int>, int> r = new CollectionResource<ObservableCollection<int>, int>(testCollection, "http://localhost:3333/int/");
-            testCollection.Add(12);
+            Resource<int> testResource = new Resource<int>(3, "http://localhost:12345/int/");
+            Resource<bool> test2 = new Resource<bool>(true, "http://127.0.0.1:12345/bool/");
+            Console.WriteLine("Eingabe beendet Programm...");
+            Console.ReadKey();
         }
     }
 }
