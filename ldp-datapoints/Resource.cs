@@ -15,7 +15,7 @@ namespace LDPDatapoints
         protected ISubscription[] Subscriptions { get; }
 
         protected T _value;
-        public T Value
+        public virtual T Value
         {
             get { return _value; }
             set {  /* .. trigger update event */ }
