@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LDPDatapoints.Messages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LDPDatapoints.Subscriptions
 {
-    class WebHookSubscription<T> : ISubscription<T>
+    public class WebHookSubscription : ISubscription
     {
         HttpClient sender;
         List<string> callbackUris;
@@ -19,13 +20,23 @@ namespace LDPDatapoints.Subscriptions
             callbackUris = new List<string>();
         }
 
-        public void SendMessage(ISubscriptionMessage message)
+        public void SendMessage(SubscriptionMessage message)
         {
             StringContent messageAsString = new StringContent(JsonConvert.SerializeObject(message));
             foreach (string uri in callbackUris)
             {
                 var r = sender.PostAsync(uri, messageAsString);
             }
+        }
+
+        public void SendData(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMessage(string message)
+        {
+            Console.WriteLine("[WEBHOOK]\n_______________________\n\n " + message + "\n\n");
         }
 
         private void registerWebhook(string uri)

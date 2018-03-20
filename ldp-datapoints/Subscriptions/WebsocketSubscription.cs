@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LDPDatapoints.Messages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using WebSocketSharp;
 
 namespace LDPDatapoints.Subscriptions
 {
-    public class WebsocketSubscription<T> : ISubscription<T>
+    public class WebsocketSubscription : ISubscription
     {
         private WebSocket webSocket;
 
@@ -17,9 +18,19 @@ namespace LDPDatapoints.Subscriptions
             webSocket = new WebSocket(websocketUri);
         }
 
-        public void SendMessage(ISubscriptionMessage message)
+        public void SendMessage(SubscriptionMessage message)
         {
             webSocket.Send(JsonConvert.SerializeObject(message));
+        }
+
+        public void SendData(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendMessage(string message)
+        {
+            Console.WriteLine("[WEBSOCKET]\n_______________________\n\n " + message + "\n\n");
         }
     }
 }
