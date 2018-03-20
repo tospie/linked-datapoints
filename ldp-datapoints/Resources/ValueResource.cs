@@ -1,11 +1,8 @@
 ﻿using LDPDatapoints.Subscriptions;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using VDS.RDF;
@@ -13,7 +10,8 @@ using VDS.RDF.Writing;
 
 namespace LDPDatapoints.Resources
 {
-    public class ValueResource<T> : SubscriptionResource<T> where T : IXmlSerializable, new()
+
+    public class ValueResource<T> : SubscriptionResource<T>
     {
         XmlSerializer xmlSerializer;
         XmlWriter xmlWriter;
@@ -63,11 +61,9 @@ namespace LDPDatapoints.Resources
         protected void buildGraph()
         {
             var graph = new Graph();
-            graph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#"));
-            // XmlWriter checks if the output is a XML Document (or alternatively a XML Fragment) and throws an error
-            // Value.WriteXml(xmlWriter);
+            graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));            
             var o = graph.CreateLiteralNode(Value.ToString(), new Uri("http://localhost:3333/todo"));
-            var p = graph.CreateUriNode("owl:hasValue");
+            var p = graph.CreateUriNode("rdf:value");
             var s = graph.CreateUriNode(new Uri(route));
             graph.Assert(new Triple(s, p, o));
             RDFGraph = graph;

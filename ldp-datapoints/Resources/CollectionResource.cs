@@ -24,6 +24,7 @@ namespace LDPDatapoints.Resources
 
         public CollectionResource(T value, string route) : base(value, route)
         {
+            _value = value;
             _value.CollectionChanged += (o, e) => NotifySubscriptions(o, e);
             collectionHasPropertyElements = typeof(U).IsAssignableFrom(typeof(INotifyPropertyChanged));
         }
@@ -50,9 +51,10 @@ namespace LDPDatapoints.Resources
 
         private void handleCollectionItemPropertyChanged(U sender, int index, string property)
         {
-            CollectionUpdateMessage m = new CollectionUpdateMessage();
+            CollectionUpdateMessage<U> m = new CollectionUpdateMessage<U>();
             m.IndexChanged = index;
-            m.newObject = sender;
+            m.newObjects = new U[1] { sender };
+
             m.ObjectAdded = false;
             foreach (ISubscription s in Subscriptions)
             {
@@ -64,6 +66,24 @@ namespace LDPDatapoints.Resources
         {
             ObservableCollection<T> o = new ObservableCollection<T>();
             var args = e as NotifyCollectionChangedEventArgs;
+            CollectionUpdateMessage<U> m = new CollectionUpdateMessage<U>();
+            m.ObjectAdded = args.NewItems.Count > 0;
+            if (m.ObjectAdded)
+            {
+                m.IndexChanged = args.NewStartingIndex;
+                U[] newObjects = new U[args.NewItems.Count];
+                args.NewItems.CopyTo(newObjects,0);
+                m.newObjects = newObjects;
+            }
+            else
+            {
+                m.IndexChanged = args.OldStartingIndex;
+            }
+            string messageString = m.ToString();
+            foreach (ISubscription s in Subscriptions)
+            {
+                s.SendMessage(messageString);
+            }
         }
 
         protected override void onGet(object sender, HttpEventArgs e)
