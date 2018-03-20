@@ -59,8 +59,15 @@ namespace LDPDatapoints
 
         protected virtual Graph buildGraph(T value)
         {
+            //XmlSerializer serializer = new XmlSerializer(typeof(T));
+            //var sw = new System.IO.StringWriter();
+            //serializer.Serialize(sw, value);
+            //var xmlvalue = sw.ToString();
             var graph = new Graph();
-            graph.CreateLiteralNode(value.ToString());
+            var o = RDFGraph.CreateLiteralNode(value.ToString(), new Uri("http://localhost:3333/todo"));
+            var p = RDFGraph.CreateUriNode("owl:hasValue");
+            var s = RDFGraph.CreateUriNode(new Uri(route));
+            graph.Assert(new Triple(s, p, o));
             return graph;
         }
     }
