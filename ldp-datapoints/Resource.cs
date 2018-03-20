@@ -30,6 +30,8 @@ namespace LDPDatapoints
             TtlWriter = new CompressingTurtleWriter();
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += onGet;
+            RDFGraph = new Graph();
+            RDFGraph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#"));
             RDFGraph = buildGraph(value);
         }
 
