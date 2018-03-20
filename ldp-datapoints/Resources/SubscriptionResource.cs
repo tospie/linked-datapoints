@@ -42,6 +42,11 @@ namespace LDPDatapoints.Resources
             }
         }
 
+        public void Subscribe(ISubscription subscription)
+        {
+            Subscriptions.Add(subscription);
+        }
+
         protected List<ISubscription> Subscriptions { get; }
         protected abstract void NotifySubscriptions(object sender, EventArgs e);
         // this maybe is a bad idea
