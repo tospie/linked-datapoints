@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LDPDatapoints.Messages
 {
-    class ValueUpdateMessage
+    class ValueUpdateMessage : SubscriptionMessage
     {
     }
 }
