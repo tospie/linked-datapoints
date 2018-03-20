@@ -55,7 +55,7 @@ namespace LDPDatapoints.Resources
             m.ObjectAdded = false;
             foreach (ISubscription s in Subscriptions)
             {
-                s.SendMessage(m);
+                s.SendMessage(m.ToString());
             }
         }
 
