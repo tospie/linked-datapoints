@@ -9,6 +9,6 @@ namespace LDPDatapoints.Subscriptions
 {
     public interface ISubscription
     {
-        void SendMessage(SubscriptionMessage message);
+        void SendMessage(string message);
     }
 }

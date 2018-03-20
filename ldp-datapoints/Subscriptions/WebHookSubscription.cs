@@ -29,6 +29,11 @@ namespace LDPDatapoints.Subscriptions
             }
         }
 
+        public void SendMessage(string message)
+        {
+            throw new NotImplementedException();
+        }
+
         private void registerWebhook(string uri)
         {
             callbackUris.Add(uri);
