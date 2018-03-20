@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LDPDatapoints.Messages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace LDPDatapoints.Subscriptions
             webSocket = new WebSocket(websocketUri);
         }
 
-        public void SendMessage(ISubscriptionMessage message)
+        public void SendMessage(SubscriptionMessage message)
         {
             webSocket.Send(JsonConvert.SerializeObject(message));
         }

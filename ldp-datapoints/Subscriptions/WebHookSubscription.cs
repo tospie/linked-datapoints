@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LDPDatapoints.Messages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace LDPDatapoints.Subscriptions
             callbackUris = new List<string>();
         }
 
-        public void SendMessage(ISubscriptionMessage message)
+        public void SendMessage(SubscriptionMessage message)
         {
             StringContent messageAsString = new StringContent(JsonConvert.SerializeObject(message));
             foreach (string uri in callbackUris)
