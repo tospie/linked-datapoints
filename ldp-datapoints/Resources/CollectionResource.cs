@@ -17,7 +17,7 @@ namespace LDPDatapoints.Resources
     /// </summary>
     /// <typeparam name="T">The collection type that this Resource should represent.</typeparam>
     /// <typeparam name="U">The generic type of the collection elements.</typeparam>
-    public abstract class CollectionResource<T, U> : Resource<T> where T : ICollection<U>, INotifyCollectionChanged
+    public class CollectionResource<T, U> : Resource<T> where T : ICollection<U>, INotifyCollectionChanged
     {
         private bool collectionHasPropertyElements = false;
 
