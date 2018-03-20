@@ -38,7 +38,7 @@ namespace LDPDatapoints
             while (true)
             {
                 var context = httpListener.GetContext();
-                handleRequest(context);
+                Task.Factory.StartNew(() => handleRequest(context));
             }
         }
 
