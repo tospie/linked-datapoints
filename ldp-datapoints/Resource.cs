@@ -12,23 +12,23 @@ namespace LDPDatapoints
         protected Graph RDFGraph { get; }
         protected CompressingTurtleWriter TtlWriter { get; }
         protected HttpRequestListener RequestListener { get; }
-        protected ISubscription<T>[] subscriptions { get; }
+        protected ISubscription[] Subscriptions { get; }
 
-        private T _value;
+        protected T _value;
         public T Value
         {
             get { return _value; }
             set {  /* .. trigger update event */ }
         }
 
-        protected Resource(T value, string route)
+        public Resource(T value, string route)
         {
             TtlWriter = new CompressingTurtleWriter();
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += onGet;
         }
 
-        public virtual void onGet(object sender, HttpEventArgs e)
+        protected virtual void onGet(object sender, HttpEventArgs e)
         {
             System.IO.StringWriter sw = new System.IO.StringWriter();
             TtlWriter.Save(RDFGraph, sw);
@@ -40,6 +40,9 @@ namespace LDPDatapoints
             response.Close();
         }
 
-        public Resource() { }
+        protected virtual void NotifySubscriptions(this object sender, EventArgs e)
+        {
+            throw new NotImplementedException("Instance of Resource<T> does not implement notification of subscriptions");
+        }
     }
 }
