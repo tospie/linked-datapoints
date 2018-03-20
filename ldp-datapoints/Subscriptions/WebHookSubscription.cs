@@ -29,6 +29,11 @@ namespace LDPDatapoints.Subscriptions
             }
         }
 
+        public void SendData(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SendMessage(string message)
         {
             throw new NotImplementedException();

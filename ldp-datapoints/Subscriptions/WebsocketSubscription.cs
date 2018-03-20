@@ -23,6 +23,11 @@ namespace LDPDatapoints.Subscriptions
             webSocket.Send(JsonConvert.SerializeObject(message));
         }
 
+        public void SendData(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SendMessage(string message)
         {
             throw new NotImplementedException();
