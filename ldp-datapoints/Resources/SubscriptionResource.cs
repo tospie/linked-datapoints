@@ -15,6 +15,9 @@ namespace LDPDatapoints.Resources
         protected Graph RDFGraph { get; set; }        
         protected T _value;
 
+        protected List<ISubscription> Subscriptions { get; }
+        protected abstract void NotifySubscriptions(object sender, EventArgs e);
+
         public virtual T Value
         {
             get { return _value; }
@@ -47,8 +50,6 @@ namespace LDPDatapoints.Resources
             Subscriptions.Add(subscription);
         }
 
-        protected List<ISubscription> Subscriptions { get; }
-        protected abstract void NotifySubscriptions(object sender, EventArgs e);
         // this maybe is a bad idea
         //protected abstract Graph buildGraph(T value);
 
