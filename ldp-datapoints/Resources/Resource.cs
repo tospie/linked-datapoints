@@ -1,5 +1,6 @@
 ﻿using LDPDatapoints.Subscriptions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -15,7 +16,7 @@ namespace LDPDatapoints
         protected Graph RDFGraph { get; }
         protected CompressingTurtleWriter TtlWriter { get; }
         protected HttpRequestListener RequestListener { get; }
-        protected ISubscription[] Subscriptions { get; }
+        protected ISet<ISubscription> Subscriptions { get; }
 
         protected T _value;
         public virtual T Value
@@ -31,8 +32,14 @@ namespace LDPDatapoints
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += onGet;
             RDFGraph = new Graph();
+            Subscriptions = new HashSet<ISubscription>();
             RDFGraph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#"));
             RDFGraph = buildGraph(value);
+        }
+
+        public void Subscribe(ISubscription subscription)
+        {
+            Subscriptions.Add(subscription);
         }
 
         protected virtual void onGet(object sender, HttpEventArgs e)
