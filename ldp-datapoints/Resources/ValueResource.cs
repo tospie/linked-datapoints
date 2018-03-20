@@ -20,6 +20,7 @@ namespace LDPDatapoints.Resources
             set
             {
                 _value = value;
+                buildGraph();
                 NotifySubscriptions(this, new EventArgs());
             }
         }
@@ -49,6 +50,18 @@ namespace LDPDatapoints.Resources
             }
             response.Close();
         }
+
+        protected void buildGraph()
+        {
+            var graph = new Graph();
+            graph.NamespaceMap.AddNamespace("owl", new Uri("http://www.w3.org/2002/07/owl#"));
+            // XmlWriter checks if the output is a XML Document (or alternatively a XML Fragment) and throws an error
+            // Value.WriteXml(xmlWriter);
+            var o = graph.CreateLiteralNode(Value.ToString(), new Uri("http://localhost:3333/todo"));
+            var p = graph.CreateUriNode("owl:hasValue");
+            var s = graph.CreateUriNode(new Uri(route));
+            graph.Assert(new Triple(s, p, o));
+            RDFGraph = graph;
         }
 
         protected override void NotifySubscriptions(object sender, EventArgs e)
