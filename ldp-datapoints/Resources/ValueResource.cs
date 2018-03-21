@@ -40,21 +40,11 @@ namespace LDPDatapoints.Resources
         {
             HttpListenerRequest request = e.request;
             HttpListenerResponse response = e.response;
-
-            // use JSON-LD representation only if explicitly requested
-            if (request.AcceptTypes.Contains("application/ld+json") && !(request.AcceptTypes.Contains("text/turtle")))
-            {
-                // TODO: json-ld representation
-                response.OutputStream.Write(Encoding.UTF8.GetBytes("NOT YET IMPLEMENTED"), 0, "NOT YET IMPLEMENTED".Length);
-            }
-            else
-            {
-                System.IO.StringWriter stringWriter = new System.IO.StringWriter();
-                CompressingTurtleWriter ttlWriter = new CompressingTurtleWriter();
-                ttlWriter.Save(RDFGraph, stringWriter);
-                string graph = stringWriter.ToString();
-                response.OutputStream.Write(Encoding.UTF8.GetBytes(graph), 0, graph.Length);
-            }
+            System.IO.StringWriter stringWriter = new System.IO.StringWriter();
+            CompressingTurtleWriter ttlWriter = new CompressingTurtleWriter();
+            ttlWriter.Save(RDFGraph, stringWriter);
+            string graph = stringWriter.ToString();
+            response.OutputStream.Write(Encoding.UTF8.GetBytes(graph), 0, graph.Length);
             response.Close();
         }
 
