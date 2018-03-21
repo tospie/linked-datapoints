@@ -29,5 +29,15 @@ namespace LDPDatapoints.Resources
         {
             return "TODO";
         }
+
+        protected override void onPut(object sender, HttpEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void onPost(object sender, HttpEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

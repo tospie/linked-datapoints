@@ -13,5 +13,7 @@
         }
 
         protected abstract void onGet(object sender, HttpEventArgs e);
+        protected abstract void onPut(object sender, HttpEventArgs e);
+        protected abstract void onPost(object sender, HttpEventArgs e);
     }
 }
