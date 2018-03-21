@@ -52,7 +52,7 @@ namespace LDPDatapoints.Resources
         {
             var graph = new Graph();
             graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));            
-            var o = graph.CreateLiteralNode(Value.ToString(), new Uri("http://localhost:3333/todo"));
+            var o = graph.CreateLiteralNode(Value.ToString(), new Uri(typeRoute));
             var p = graph.CreateUriNode("rdf:value");
             var s = graph.CreateUriNode(new Uri(route));
             graph.Assert(new Triple(s, p, o));
