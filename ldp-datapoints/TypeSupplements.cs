@@ -10,18 +10,18 @@ namespace LDPDatapoints
     static class TypeSupplements
     {
         public static Dictionary<Type, string> typeNames = new Dictionary<Type, string>{
-            { typeof(int), "i32"},
-            { typeof(short), "i16"},
-            { typeof(long), "i64"},
+            { typeof(int), "int"},
+            { typeof(short), "short"},
+            { typeof(long), "long"},
             { typeof(byte), "byte"},
-            { typeof(bool), "bool"},
+            { typeof(bool), "boolean"},
             { typeof(double), "double"},
             { typeof(float), "float"},
             { typeof(string), "string"},
-            { typeof(uint), "u32"},
-            { typeof(ushort), "u16"},
-            { typeof(ulong), "u64"},
-            { typeof(object), "any"}
+            { typeof(uint), "unsignedInt"},
+            { typeof(ushort), "unsignedShort"},
+            { typeof(ulong), "unsignedLong"},
+            { typeof(object), "anyURI"} // TODO: is this right?
         };
 
         public static string transformTypeToString(this Type type)
