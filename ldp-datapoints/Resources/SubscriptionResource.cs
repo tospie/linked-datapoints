@@ -17,6 +17,7 @@ namespace LDPDatapoints.Resources
 
         protected List<ISubscription> Subscriptions { get; }
         protected abstract void NotifySubscriptions(object sender, EventArgs e);
+        protected string typeRoute { get; }
 
         public virtual T Value
         {
@@ -38,7 +39,7 @@ namespace LDPDatapoints.Resources
             {
                 var routeUri = new Uri(route);
                 var baseroute = routeUri.Scheme + "://" + routeUri.Host + ":" + routeUri.Port + "/";
-                var typeRoute = baseroute + "types/" + typeof(T).transformTypeToString() + "/";
+                typeRoute = baseroute + "types/" + typeof(T).transformTypeToString() + "/";
                 new TypeResource(typeof(T), typeRoute);
                 Console.WriteLine("Route: " + typeRoute);
             }
