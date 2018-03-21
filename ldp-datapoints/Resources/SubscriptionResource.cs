@@ -36,7 +36,9 @@ namespace LDPDatapoints.Resources
             Subscriptions = new List<ISubscription>();
             try
             {
-                var typeRoute = "http://127.0.0.1:3333/types/" + typeof(T).Name.ToString() + "/";
+                var routeUri = new Uri(route);
+                var baseroute = routeUri.Scheme + "://" + routeUri.Host + ":" + routeUri.Port + "/";
+                var typeRoute = baseroute + "types/" + TypeSupplements.transformTypeToString(typeof(T)) + "/";
                 new TypeResource(typeof(T), typeRoute);
                 Console.WriteLine("Route: " + typeRoute);
             }
