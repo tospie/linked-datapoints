@@ -46,9 +46,26 @@ namespace LDPDatapoints
 
         private void handleRequest(HttpListenerContext context)
         {
-            if (context.Request.HttpMethod == HttpMethod.Get.Method)
+            var eventArgs = new HttpEventArgs(context.Request, context.Response);
+            var method = context.Request.HttpMethod;
+            try
             {
-                OnGet?.Invoke(this, new HttpEventArgs(context.Request, context.Response));
+                if (method == HttpMethod.Get.Method)
+                {
+                    OnGet?.Invoke(this, eventArgs);
+                }
+                else if (method == HttpMethod.Post.Method)
+                {
+                    OnPost?.Invoke(this, eventArgs);
+                }
+                else if (method == HttpMethod.Put.Method)
+                {
+                    OnPut?.Invoke(this, eventArgs);
+                }
+            }
+            catch (NotImplementedException)
+            {
+                context.Response.Abort();
             }
         }
     }
