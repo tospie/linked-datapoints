@@ -23,6 +23,8 @@ namespace LDPDatapoints
         private HttpListener httpListener;
 
         public event EventHandler<HttpEventArgs> OnGet;
+        public event EventHandler<HttpEventArgs> OnPut;
+        public event EventHandler<HttpEventArgs> OnPost;
 
         public HttpRequestListener(string path)
         {
