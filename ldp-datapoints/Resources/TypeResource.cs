@@ -28,7 +28,7 @@ namespace LDPDatapoints.Resources
         protected string buildTypeInfo(Type t)
         {
             // TODO: something else?
-            return TypeSupplements.transformTypeToString(t);
+            return t.transformTypeToString();
         }
 
         protected override void onPut(object sender, HttpEventArgs e)

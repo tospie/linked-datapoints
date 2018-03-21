@@ -24,7 +24,7 @@ namespace LDPDatapoints
             { typeof(object), "any"}
         };
 
-        public static string transformTypeToString(Type type)
+        public static string transformTypeToString(this Type type)
         {
             if (typeNames.ContainsKey(type))
             {

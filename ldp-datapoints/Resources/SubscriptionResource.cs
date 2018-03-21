@@ -38,7 +38,7 @@ namespace LDPDatapoints.Resources
             {
                 var routeUri = new Uri(route);
                 var baseroute = routeUri.Scheme + "://" + routeUri.Host + ":" + routeUri.Port + "/";
-                var typeRoute = baseroute + "types/" + TypeSupplements.transformTypeToString(typeof(T)) + "/";
+                var typeRoute = baseroute + "types/" + typeof(T).transformTypeToString() + "/";
                 new TypeResource(typeof(T), typeRoute);
                 Console.WriteLine("Route: " + typeRoute);
             }
