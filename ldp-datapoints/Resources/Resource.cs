@@ -10,6 +10,8 @@
             this.route = route;
             RequestListener = new HttpRequestListener(route);
             RequestListener.OnGet += onGet;
+            RequestListener.OnPut += onPut;
+            RequestListener.OnPost += onPost;
         }
 
         protected abstract void onGet(object sender, HttpEventArgs e);
