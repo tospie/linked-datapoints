@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace LDPDatapoints
 {
-    static class TypeSupplements
+    public static class TypeSupplements
     {
         public static Dictionary<Type, string> typeNames = new Dictionary<Type, string>{
-            { typeof(int), "int"},
-            { typeof(short), "short"},
-            { typeof(long), "long"},
-            { typeof(byte), "byte"},
-            { typeof(bool), "boolean"},
-            { typeof(double), "double"},
-            { typeof(float), "float"},
-            { typeof(string), "string"},
-            { typeof(uint), "unsignedInt"},
-            { typeof(ushort), "unsignedShort"},
-            { typeof(ulong), "unsignedLong"},
-            { typeof(object), "anyURI"} // TODO: is this right?
+            { typeof(int), "xsd:int"},
+            { typeof(short), "xsd:short"},
+            { typeof(long), "xsd:long"},
+            { typeof(byte), "xsd:byte"},
+            { typeof(bool), "xsd:boolean"},
+            { typeof(double), "xsd:double"},
+            { typeof(float), "xsd:float"},
+            { typeof(string), "xsd:string"},
+            { typeof(uint), "xsd:unsignedInt"},
+            { typeof(ushort), "xsd:unsignedShort"},
+            { typeof(ulong), "xsd:unsignedLong"},
+            { typeof(object), "xsd:anyURI"}
         };
 
         public static string transformTypeToString(this Type type)
