@@ -8,7 +8,7 @@
         public Resource(string route)
         {
             this.route = route;
-            RequestListener = new HttpRequestListener(route);
+            RequestListener = new HttpRequestListener(route.TrimEnd('/')+"/");
             RequestListener.OnGet += onGet;
             RequestListener.OnPut += onPut;
             RequestListener.OnPost += onPost;
