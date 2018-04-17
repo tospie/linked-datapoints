@@ -54,7 +54,6 @@ namespace LDPDatapoints.Resources
                 var baseroute = routeUri.Scheme + "://" + routeUri.Host + ":" + routeUri.Port + "/";
                 typeRoute = baseroute + "types/" + typeof(T).transformTypeToString() + "/";
                 new TypeResource(typeof(T), typeRoute);
-                Console.WriteLine("Route: " + typeRoute);
             }
             catch (HttpListenerException)
             {
