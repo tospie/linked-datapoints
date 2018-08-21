@@ -108,7 +108,35 @@ namespace LDPDatapoints.Resources
 
         protected override void onPost(object sender, HttpEventArgs e)
         {
-            throw new NotImplementedException();
+            HttpListenerRequest request = e.request;
+
+            try
+            {
+                if (request.ContentType.Equals("application/json"))
+                {
+                    using (Stream input = request.InputStream)
+                    {
+                        using (StreamReader reader = new StreamReader(input, Encoding.UTF8))
+                        {
+                            var deserialized = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
+                            Value = deserialized;
+                        }
+                    }
+                }
+                else if (request.ContentType.Equals("application/xml"))
+                {
+                    Value = (T)xmlSerializer.Deserialize(request.InputStream);
+                }
+                e.response.StatusCode = 204;
+                e.response.Close();
+            }
+            catch (Exception ex)
+            {
+                e.response.StatusCode = 500;
+                string genericError = "Something went wrong when processing the request.";
+                e.response.OutputStream.Write(Encoding.UTF8.GetBytes(genericError), 0, genericError.Length);
+                e.response.Close();
+            }
         }
     }
 }
