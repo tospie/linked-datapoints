@@ -12,7 +12,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 */
 
 using LDPDatapoints.Subscriptions;
+using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -54,17 +56,33 @@ namespace LDPDatapoints.Resources
             HttpListenerRequest request = e.request;
             HttpListenerResponse response = e.response;
             System.IO.StringWriter stringWriter = new System.IO.StringWriter();
-            CompressingTurtleWriter ttlWriter = new CompressingTurtleWriter();
-            ttlWriter.Save(RDFGraph, stringWriter);
-            string graph = stringWriter.ToString();
-            response.OutputStream.Write(Encoding.UTF8.GetBytes(graph), 0, graph.Length);
+            string valueAsString = "";
+            if (request.AcceptTypes.Contains("application/xml"))
+            {
+                xmlSerializer.Serialize(stringWriter, _value);
+                valueAsString = stringWriter.ToString();
+                response.ContentType = "application/xml";
+            }
+            else if (request.AcceptTypes.Contains("application/json"))
+            {
+                valueAsString = JsonConvert.SerializeObject(_value);
+                response.ContentType = "application/json";
+            }
+            else if (request.AcceptTypes.Contains("text/turtle"))
+            {
+                CompressingTurtleWriter ttlWriter = new CompressingTurtleWriter();
+                ttlWriter.Save(RDFGraph, stringWriter);
+                valueAsString = stringWriter.ToString();
+                response.ContentType = "text/turtle";
+            }
+            response.OutputStream.Write(Encoding.UTF8.GetBytes(valueAsString), 0, valueAsString.Length);
             response.Close();
         }
 
         protected void buildGraph()
         {
             var graph = new Graph();
-            graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));            
+            graph.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
             var o = graph.CreateLiteralNode(Value.ToString(), new Uri(typeRoute));
             var p = graph.CreateUriNode("rdf:value");
             var s = graph.CreateUriNode(new Uri(route));
