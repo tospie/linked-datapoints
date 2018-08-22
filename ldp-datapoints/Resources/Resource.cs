@@ -15,12 +15,12 @@ namespace LDPDatapoints.Resources
 {
     public abstract class Resource
     {
-        protected string route { get; }
+        public string Route { get; private set; }
         protected HttpRequestListener RequestListener { get; }
 
         public Resource(string route)
         {
-            this.route = route;
+            this.Route = route;
             RequestListener = new HttpRequestListener(route.TrimEnd('/') + "/");
             RequestListener.OnGet += onGet;
             RequestListener.OnPut += onPut;
