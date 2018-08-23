@@ -57,7 +57,7 @@ namespace LDPDatapoints.Resources
             }
             catch (HttpListenerException)
             {
-                Console.Error.WriteLine("Route already taken. TypeResource should exist.");
+                //Console.Error.WriteLine("Route already taken. TypeResource should exist.");
             }
         }
 
