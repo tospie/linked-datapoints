@@ -47,7 +47,7 @@ namespace LDPDatapoints.Resources
 
         public SubscriptionResource(T value, string route) : base(route)
         {
-            RDFGraph = new Graph();
+            InitializeRDFGraphs();
             Subscriptions = new List<ISubscription>();
             try
             {
@@ -68,8 +68,13 @@ namespace LDPDatapoints.Resources
             describeSubscription(subscription);
         }
 
-        private void describeSubscription(ISubscription subscription)
+        private void InitializeRDFGraphs()
         {
+            RDFGraph = new Graph();
+            SubscriptionDescription = new Graph();
+            SubscriptionDescription.NamespaceMap.AddNamespace("sub", new Uri("http://www.dfki.de/linked-datapoints/subscriptions/#"));
+            SubscriptionDescription.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
+        }
 
         }
 
