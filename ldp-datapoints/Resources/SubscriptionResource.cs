@@ -105,7 +105,15 @@ namespace LDPDatapoints.Resources
 
         protected override void onOptions(object sender, HttpEventArgs e)
         {
-            throw new NotImplementedException();
+            var writer = new CompressingTurtleWriter();
+            System.IO.StringWriter sw = new System.IO.StringWriter();
+            writer.Save(SubscriptionDescription, sw);
+            string graphAsString = sw.ToString();
+            e.response.StatusCode = 200;
+            e.response.OutputStream.Write(Encoding.UTF8.GetBytes(graphAsString), 0, graphAsString.Length);
+            e.response.ContentType = "text/turtle";
+            e.response.OutputStream.Flush();
+            e.response.OutputStream.Close();
         }
 
     }
