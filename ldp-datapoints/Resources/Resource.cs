@@ -25,10 +25,12 @@ namespace LDPDatapoints.Resources
             RequestListener.OnGet += onGet;
             RequestListener.OnPut += onPut;
             RequestListener.OnPost += onPost;
+            RequestListener.OnOptions += onOptions;
         }
 
         protected abstract void onGet(object sender, HttpEventArgs e);
         protected abstract void onPut(object sender, HttpEventArgs e);
         protected abstract void onPost(object sender, HttpEventArgs e);
+        protected abstract void onOptions(object sender, HttpEventArgs e);
     }
 }
