@@ -38,6 +38,7 @@ namespace LDPDatapoints
         public event EventHandler<HttpEventArgs> OnGet;
         public event EventHandler<HttpEventArgs> OnPut;
         public event EventHandler<HttpEventArgs> OnPost;
+        public event EventHandler<HttpEventArgs> OnOptions;
 
         public HttpRequestListener(string path)
         {
@@ -74,6 +75,10 @@ namespace LDPDatapoints
                 else if (method == HttpMethod.Put.Method)
                 {
                     OnPut?.Invoke(this, eventArgs);
+                }
+                else if (method == HttpMethod.Options.Method)
+                {
+                    OnOptions?.Invoke(this, eventArgs);
                 }
             }
             catch (NotImplementedException)
