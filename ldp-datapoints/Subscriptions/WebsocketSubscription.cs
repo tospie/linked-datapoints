@@ -26,8 +26,11 @@ namespace LDPDatapoints.Subscriptions
     {
         private WebSocket webSocket;
 
+        public string Route { get; private set; }
+
         public WebsocketSubscription(string websocketUri)
         {
+            Route = websocketUri;
             webSocket = new WebSocket(websocketUri);
         }
 

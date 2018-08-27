@@ -22,6 +22,7 @@ namespace LDPDatapoints.Subscriptions
 {
     public interface ISubscription
     {
+        string Route { get; }
         void SendMessage(string message);
         void SendData(byte[] data);
     }

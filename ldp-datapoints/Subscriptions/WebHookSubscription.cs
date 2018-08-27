@@ -27,8 +27,11 @@ namespace LDPDatapoints.Subscriptions
         HttpClient sender;
         List<string> callbackUris;
 
+        public string Route { get; private set; }
+
         public WebHookSubscription(string endpointUri)
         {
+            Route = endpointUri;
             sender = new HttpClient();
             callbackUris = new List<string>();
         }
