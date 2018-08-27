@@ -53,5 +53,10 @@ namespace LDPDatapoints.Resources
         {
             throw new NotImplementedException();
         }
+
+        protected override void onOptions(object sender, HttpEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
