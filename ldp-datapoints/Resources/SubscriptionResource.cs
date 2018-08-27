@@ -25,7 +25,7 @@ namespace LDPDatapoints.Resources
 {
     public abstract class SubscriptionResource<T> : Resource
     {
-        protected Graph RDFGraph { get; private set; }
+        protected Graph RDFGraph { get; set; }
         protected Graph SubscriptionDescription { get; private set; }
         protected T _value;
 
