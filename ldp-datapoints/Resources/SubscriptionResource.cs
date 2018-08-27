@@ -76,6 +76,31 @@ namespace LDPDatapoints.Resources
             SubscriptionDescription.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
         }
 
+        private void describeSubscription(ISubscription subscription)
+        {
+            var subscriptionEndpointNode = SubscriptionDescription.CreateUriNode(new Uri(Route));
+            var SUB_PROTOCOL = SubscriptionDescription.CreateUriNode("sub:protocol");
+            var RDF_FORMAT = SubscriptionDescription.CreateUriNode("rdf:format");
+            if (subscription is WebsocketSubscription)
+            {
+                var wsSubscription = subscription as WebsocketSubscription;
+                var wsEndpointNode = SubscriptionDescription.CreateUriNode(new Uri(wsSubscription.Route));
+                SubscriptionDescription.Assert(new Triple(
+                        subscriptionEndpointNode,
+                        SubscriptionDescription.CreateUriNode("sub:endpoint"),
+                        wsEndpointNode
+                    ));
+                SubscriptionDescription.Assert(new Triple(
+                        wsEndpointNode,
+                        SUB_PROTOCOL,
+                        SubscriptionDescription.CreateUriNode("sub:websocket")
+                    ));
+                SubscriptionDescription.Assert(new Triple(
+                        wsEndpointNode,
+                        RDF_FORMAT,
+                        SubscriptionDescription.CreateUriNode("sub:TBD")
+                    ));
+            }
         }
 
         protected override void onOptions(object sender, HttpEventArgs e)
