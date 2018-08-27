@@ -25,7 +25,8 @@ namespace LDPDatapoints.Resources
 {
     public abstract class SubscriptionResource<T> : Resource
     {
-        protected Graph RDFGraph { get; set; }
+        protected Graph RDFGraph { get; private set; }
+        protected Graph SubscriptionDescription { get; private set; }
         protected T _value;
 
         protected List<ISubscription> Subscriptions { get; }
@@ -64,10 +65,18 @@ namespace LDPDatapoints.Resources
         public void Subscribe(ISubscription subscription)
         {
             Subscriptions.Add(subscription);
+            describeSubscription(subscription);
         }
 
-        // this maybe is a bad idea
-        //protected abstract Graph buildGraph(T value);
+        private void describeSubscription(ISubscription subscription)
+        {
+
+        }
+
+        protected override void onOptions(object sender, HttpEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }
