@@ -33,6 +33,9 @@ namespace LDPDatapoints.Resources
         protected abstract void NotifySubscriptions(object sender, EventArgs e);
         protected string typeRoute { get; }
 
+        protected CompressingTurtleWriter writer = new CompressingTurtleWriter();
+        protected System.IO.StringWriter sw = new System.IO.StringWriter();
+
         public virtual T Value
         {
             get { return _value; }
@@ -72,41 +75,16 @@ namespace LDPDatapoints.Resources
         {
             RDFGraph = new Graph();
             SubscriptionDescription = new Graph();
-            SubscriptionDescription.NamespaceMap.AddNamespace("sub", new Uri("http://www.dfki.de/linked-datapoints/subscriptions/#"));
-            SubscriptionDescription.NamespaceMap.AddNamespace("rdf", new Uri("http://www.w3.org/1999/02/22-rdf-syntax-ns#"));
         }
 
-        private void describeSubscription(ISubscription subscription)
+        private void describeSubscription(Subscription subscription)
         {
-            var subscriptionEndpointNode = SubscriptionDescription.CreateUriNode(new Uri(Route));
-            var SUB_PROTOCOL = SubscriptionDescription.CreateUriNode("sub:protocol");
-            var RDF_FORMAT = SubscriptionDescription.CreateUriNode("rdf:format");
-            if (subscription is WebsocketSubscription)
-            {
-                var wsSubscription = subscription as WebsocketSubscription;
-                var wsEndpointNode = SubscriptionDescription.CreateUriNode(new Uri(wsSubscription.Route));
-                SubscriptionDescription.Assert(new Triple(
-                        subscriptionEndpointNode,
-                        SubscriptionDescription.CreateUriNode("sub:endpoint"),
-                        wsEndpointNode
-                    ));
-                SubscriptionDescription.Assert(new Triple(
-                        wsEndpointNode,
-                        SUB_PROTOCOL,
-                        SubscriptionDescription.CreateUriNode("sub:websocket")
-                    ));
-                SubscriptionDescription.Assert(new Triple(
-                        wsEndpointNode,
-                        RDF_FORMAT,
-                        SubscriptionDescription.CreateUriNode("sub:TBD")
-                    ));
-            }
+            subscription.BuildGraph(this);
+            SubscriptionDescription.Merge(subscription.DescriptionGraph);
         }
 
         protected override void onOptions(object sender, HttpEventArgs e)
         {
-            var writer = new CompressingTurtleWriter();
-            System.IO.StringWriter sw = new System.IO.StringWriter();
             writer.Save(SubscriptionDescription, sw);
             string graphAsString = sw.ToString();
             e.response.StatusCode = 200;
