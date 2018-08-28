@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace LDPDatapoints.Subscriptions
 {
-    public interface ISubscription
+    public abstract class Subscription
     {
         string Route { get; }
         void SendMessage(string message);

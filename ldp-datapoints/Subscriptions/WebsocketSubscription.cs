@@ -22,7 +22,7 @@ using WebSocketSharp;
 
 namespace LDPDatapoints.Subscriptions
 {
-    public class WebsocketSubscription : ISubscription
+    public class WebsocketSubscription : Subscription
     {
         private WebSocket webSocket;
 

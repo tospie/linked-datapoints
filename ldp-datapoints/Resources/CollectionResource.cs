@@ -69,7 +69,7 @@ namespace LDPDatapoints.Resources
             m.newObjects = new U[1] { sender };
 
             m.ObjectAdded = false;
-            foreach (ISubscription s in Subscriptions)
+            foreach (Subscription s in Subscriptions)
             {
                 s.SendMessage(m.ToString());
             }
@@ -93,7 +93,7 @@ namespace LDPDatapoints.Resources
                 m.IndexChanged = args.OldStartingIndex;
             }
             string messageString = m.ToString();
-            foreach (ISubscription s in Subscriptions)
+            foreach (Subscription s in Subscriptions)
             {
                 s.SendMessage(messageString);
             }

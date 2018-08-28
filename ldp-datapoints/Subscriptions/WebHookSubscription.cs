@@ -22,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace LDPDatapoints.Subscriptions
 {
-    public class WebHookSubscription : ISubscription
+    public class WebHookSubscription : Subscription
     {
         HttpClient sender;
         List<string> callbackUris;

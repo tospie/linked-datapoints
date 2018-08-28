@@ -29,7 +29,7 @@ namespace LDPDatapoints.Resources
         protected Graph SubscriptionDescription { get; private set; }
         protected T _value;
 
-        protected List<ISubscription> Subscriptions { get; }
+        protected List<Subscription> Subscriptions { get; }
         protected abstract void NotifySubscriptions(object sender, EventArgs e);
         protected string typeRoute { get; }
 
@@ -48,7 +48,7 @@ namespace LDPDatapoints.Resources
         public SubscriptionResource(T value, string route) : base(route)
         {
             InitializeRDFGraphs();
-            Subscriptions = new List<ISubscription>();
+            Subscriptions = new List<Subscription>();
             try
             {
                 var routeUri = new Uri(route);
@@ -62,7 +62,7 @@ namespace LDPDatapoints.Resources
             }
         }
 
-        public void Subscribe(ISubscription subscription)
+        public void Subscribe(Subscription subscription)
         {
             Subscriptions.Add(subscription);
             describeSubscription(subscription);

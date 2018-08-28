@@ -31,7 +31,7 @@ namespace LDPDatapoints.Resources
             object newValue = null;
             _value.GetType().GetProperty(args.PropertyName).GetValue(newValue);
             string message = new PropertyUpdateMessage(args.PropertyName, newValue).ToString();
-            foreach (ISubscription s in Subscriptions)
+            foreach (Subscription s in Subscriptions)
             {
                 s.SendMessage(message);
             }

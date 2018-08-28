@@ -95,7 +95,7 @@ namespace LDPDatapoints.Resources
             System.IO.StringWriter stringWriter = new System.IO.StringWriter();
             xmlSerializer.Serialize(stringWriter, _value);
             string valueAsXmlString = stringWriter.ToString();
-            foreach (ISubscription s in Subscriptions)
+            foreach (Subscription s in Subscriptions)
             {
                 s.SendMessage(valueAsXmlString);
             }
