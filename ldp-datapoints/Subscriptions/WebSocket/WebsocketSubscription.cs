@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VDS.RDF;
 using WebSocketSharp;
+using WebSocketSharp.Server;
 
 namespace LDPDatapoints.Subscriptions
 {
