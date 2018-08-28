@@ -12,6 +12,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 */
 
 using LDPDatapoints.Messages;
+using LDPDatapoints.Resources;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using VDS.RDF;
 
 namespace LDPDatapoints.Subscriptions
 {
@@ -27,11 +29,8 @@ namespace LDPDatapoints.Subscriptions
         HttpClient sender;
         List<string> callbackUris;
 
-        public string Route { get; private set; }
-
-        public WebHookSubscription(string endpointUri)
+        public WebHookSubscription(string Route) : base(Route)
         {
-            Route = endpointUri;
             sender = new HttpClient();
             callbackUris = new List<string>();
         }
@@ -45,14 +44,19 @@ namespace LDPDatapoints.Subscriptions
             }
         }
 
-        public void SendData(byte[] data)
+        public override void SendData(byte[] data)
         {
             throw new NotImplementedException();
         }
 
-        public void SendMessage(string message)
+        public override void SendMessage(string message)
         {
             Console.WriteLine("[WEBHOOK]\n_______________________\n\n " + message + "\n\n");
+        }
+
+        public override void BuildGraph(Resource datapoint)
+        {
+            throw new NotImplementedException();
         }
 
         private void registerWebhook(string uri)

@@ -26,12 +26,9 @@ namespace LDPDatapoints.Subscriptions
     {
         private WebSocket webSocket;
 
-        public string Route { get; private set; }
-
-        public WebsocketSubscription(string websocketUri)
+        public WebsocketSubscription(string Route) : base(Route)
         {
-            Route = websocketUri;
-            webSocket = new WebSocket(websocketUri);
+            webSocket = new WebSocket(Route);
         }
 
         public void SendMessage(SubscriptionMessage message)
@@ -39,12 +36,12 @@ namespace LDPDatapoints.Subscriptions
             webSocket.Send(JsonConvert.SerializeObject(message));
         }
 
-        public void SendData(byte[] data)
+        public override void SendData(byte[] data)
         {
             throw new NotImplementedException();
         }
 
-        public void SendMessage(string message)
+        public override void SendMessage(string message)
         {
             Console.WriteLine("[WEBSOCKET]\n_______________________\n\n " + message + "\n\n");
         }
