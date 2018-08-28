@@ -13,6 +13,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 
 using LDPDatapoints.Messages;
 using LDPDatapoints.Resources;
+using LDPDatapoints.Subscriptions.WebSocket;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -27,26 +28,30 @@ namespace LDPDatapoints.Subscriptions
 {
     public class WebsocketSubscription : Subscription
     {
-        private WebSocket webSocket;
+        public WsBehaviour Behaviour { get; internal set; }
 
         public WebsocketSubscription(string Route) : base(Route)
         {
-            webSocket = new WebSocket(Route);
+            Uri wsUri = new Uri(Route);
+            if (WSSubscriptionServer.Instance == null)
+                WSSubscriptionServer.Instance = new WSSubscriptionServer(wsUri.Host, wsUri.Port);
+
+            WSSubscriptionServer.Instance.AddSubscriptionRoute(wsUri.AbsolutePath, this);
         }
 
         public void SendMessage(SubscriptionMessage message)
         {
-            webSocket.Send(JsonConvert.SerializeObject(message));
+            SendMessage(JsonConvert.SerializeObject(message));
         }
 
         public override void SendData(byte[] data)
         {
-            throw new NotImplementedException();
+            Behaviour.Broadcast(data);
         }
 
         public override void SendMessage(string message)
         {
-            Console.WriteLine("[WEBSOCKET]\n_______________________\n\n " + message + "\n\n");
+            Behaviour.Broadcast(message);
         }
 
         public override void BuildGraph(Resource datapoint)
