@@ -37,6 +37,7 @@ namespace LDPDatapoints.Subscriptions
                 WSSubscriptionServer.Instance = new WSSubscriptionServer(wsUri.Host, wsUri.Port);
 
             WSSubscriptionServer.Instance.AddSubscriptionRoute(wsUri.AbsolutePath, this);
+            Behaviour = new WsBehaviour(this);
         }
 
         public void SendMessage(SubscriptionMessage message)

@@ -20,12 +20,12 @@ namespace LDPDatapoints.Subscriptions.WebSocket
 
         internal void Broadcast(string message)
         {
-            Sessions.Broadcast(message);
+            Sessions?.Broadcast(message);
         }
 
         internal void Broadcast(byte[] message)
         {
-            Sessions.Broadcast(message);
+            Sessions?.Broadcast(message);
         }
 
         protected override Task OnClose(CloseEventArgs e)
