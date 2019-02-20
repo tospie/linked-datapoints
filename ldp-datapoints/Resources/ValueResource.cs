@@ -11,6 +11,7 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTH
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+using LDPDatapoints.Events;
 using LDPDatapoints.Subscriptions;
 using Newtonsoft.Json;
 using System;
@@ -31,6 +32,8 @@ namespace LDPDatapoints.Resources
         XmlSerializer xmlSerializer;
         XmlWriter xmlWriter;
 
+        public event EventHandler<EventArgs> ValueChanged;
+
         public override T Value
         {
             get { return _value; }
@@ -39,6 +42,7 @@ namespace LDPDatapoints.Resources
                 _value = value;
                 buildGraph();
                 NotifySubscriptions(this, new EventArgs());
+                ValueChanged?.Invoke(this, new ValueChangedEventArgs(_value));
             }
         }
 
@@ -118,7 +122,8 @@ namespace LDPDatapoints.Resources
                     {
                         using (StreamReader reader = new StreamReader(input, Encoding.UTF8))
                         {
-                            var deserialized = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
+                            string receivedData = reader.ReadToEnd();
+                            var deserialized = JsonConvert.DeserializeObject<T>(receivedData);
                             Value = deserialized;
                         }
                     }
