@@ -38,7 +38,7 @@ namespace LDPDatapoints.Resources
             TyperResourceManager.RegisteredTypes.Add(t);
         }
 
-        protected override void onGet(object sender, HttpEventArgs e)
+        public override void onGet(object sender, HttpEventArgs e)
         {
             e.response.OutputStream.Write(Encoding.UTF8.GetBytes(typeinfo), 0, typeinfo.Length);
             e.response.Close();
@@ -50,17 +50,17 @@ namespace LDPDatapoints.Resources
             return t.transformTypeToString();
         }
 
-        protected override void onPut(object sender, HttpEventArgs e)
+        public override void onPut(object sender, HttpEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        protected override void onPost(object sender, HttpEventArgs e)
+        public override void onPost(object sender, HttpEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        protected override void onOptions(object sender, HttpEventArgs e)
+        public override void onOptions(object sender, HttpEventArgs e)
         {
             throw new NotImplementedException();
         }

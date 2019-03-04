@@ -55,7 +55,7 @@ namespace LDPDatapoints.Resources
             Value = value;
         }
 
-        protected override void onGet(object sender, HttpEventArgs e)
+        public override void onGet(object sender, HttpEventArgs e)
         {
             HttpListenerRequest request = e.request;
             HttpListenerResponse response = e.response;
@@ -105,12 +105,12 @@ namespace LDPDatapoints.Resources
             }
         }
 
-        protected override void onPut(object sender, HttpEventArgs e)
+        public override void onPut(object sender, HttpEventArgs e)
         {
             throw new NotImplementedException();
         }
 
-        protected override void onPost(object sender, HttpEventArgs e)
+        public override void onPost(object sender, HttpEventArgs e)
         {
             HttpListenerRequest request = e.request;
 

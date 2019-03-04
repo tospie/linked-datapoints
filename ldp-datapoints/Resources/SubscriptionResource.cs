@@ -94,7 +94,7 @@ namespace LDPDatapoints.Resources
             SubscriptionDescription.Merge(subscription.DescriptionGraph);
         }
 
-        protected override void onOptions(object sender, HttpEventArgs e)
+        public override void onOptions(object sender, HttpEventArgs e)
         {
             writer.Save(SubscriptionDescription, sw);
             string graphAsString = sw.ToString();
