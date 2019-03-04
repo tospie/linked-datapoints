@@ -52,16 +52,27 @@ namespace LDPDatapoints.Resources
         {
             InitializeRDFGraphs();
             Subscriptions = new List<Subscription>();
-            try
+
+            var routeUri = new Uri(route);
+            var baseroute = routeUri.Scheme + "://" + routeUri.Host + ":" + routeUri.Port + "/";
+            typeRoute = baseroute + "types/" + typeof(T).transformTypeToString() + "/";
+
+            lock (TyperResourceManager.RegisteredTypes)
             {
-                var routeUri = new Uri(route);
-                var baseroute = routeUri.Scheme + "://" + routeUri.Host + ":" + routeUri.Port + "/";
-                typeRoute = baseroute + "types/" + typeof(T).transformTypeToString() + "/";
-                new TypeResource(typeof(T), typeRoute);
-            }
-            catch (HttpListenerException)
-            {
-                //Console.Error.WriteLine("Route already taken. TypeResource should exist.");
+                if (!TyperResourceManager.RegisteredTypes.Contains(typeof(T)))
+                {
+                    try
+                    {
+                        new TypeResource(typeof(T), typeRoute);
+                    }
+                    catch (HttpListenerException e)
+                    {
+                        Console.Error.WriteLine("[TYPE RESOURCE] Could not start datapoint on Route {0}.\nReason:{1}\n{2}",
+                            route,
+                            e.Message,
+                            e.StackTrace);
+                    }
+                }
             }
         }
 

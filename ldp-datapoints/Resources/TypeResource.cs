@@ -23,6 +23,11 @@ using VDS.RDF.Writing;
 
 namespace LDPDatapoints.Resources
 {
+    internal static class TyperResourceManager
+    {
+        public static List<Type> RegisteredTypes = new List<Type>();
+    }
+
     class TypeResource : Resource
     {
         string typeinfo;
@@ -30,6 +35,7 @@ namespace LDPDatapoints.Resources
         public TypeResource(Type t, string route) : base(route)
         {
             typeinfo = buildTypeInfo(t);
+            TyperResourceManager.RegisteredTypes.Add(t);
         }
 
         protected override void onGet(object sender, HttpEventArgs e)
