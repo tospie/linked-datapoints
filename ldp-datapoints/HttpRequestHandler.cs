@@ -42,11 +42,30 @@ namespace LDPDatapoints
 
         public HttpRequestListener(string path)
         {
-            httpListener = new HttpListener();
-            httpListener.Prefixes.Add(path);
-            httpListener.Start();
+            try
+            {
+                httpListener = new HttpListener();
+                httpListener.Prefixes.Add(path);
+                httpListener.Start();
+            }
+            catch (HttpListenerException e)
+            {
+                Console.WriteLine("[LDPDatapoints.HttpRequestHandler]  FAILED TO START HTTP LISTENER FOR ROUTE {0}, REASON: {1}", path, e.Message);
+            }
+
             TaskFactory tf = new TaskFactory();
-            tf.StartNew(listen, TaskCreationOptions.LongRunning);
+            Task listenerTask = tf.StartNew(listen, TaskCreationOptions.LongRunning);
+            listenerTask.ContinueWith(t =>
+            {
+                if (t.IsCanceled || t.IsFaulted)
+                {
+                    foreach (Exception e in t.Exception.InnerExceptions)
+                    {
+                        Console.WriteLine("[LDPDatapoints.HttpRequestHandler]  HTTP LISTENER FAILED WITH EXCEPTION: {0}\n{1}", e.Message, e.StackTrace);
+                    }
+                }
+            }
+            );
         }
 
         private void listen()
