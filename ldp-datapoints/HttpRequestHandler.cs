@@ -61,7 +61,7 @@ namespace LDPDatapoints
                 {
                     foreach (Exception e in t.Exception.InnerExceptions)
                     {
-                        Console.WriteLine("[LDPDatapoints.HttpRequestHandler]  HTTP LISTENER FAILED WITH EXCEPTION: {0}\n{1}", e.Message, e.StackTrace);
+                        Console.WriteLine("[LDPDatapointsgit p.HttpRequestHandler]  HTTP LISTENER FOR ROUTE {0} FAILED WITH EXCEPTION: {1}\n{2}", path, e.Message, e.StackTrace);
                     }
                 }
             }
