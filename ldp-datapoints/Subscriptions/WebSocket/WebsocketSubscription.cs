@@ -33,9 +33,14 @@ namespace LDPDatapoints.Subscriptions
         public WebsocketSubscription(string Route) : base(Route)
         {
             Uri wsUri = new Uri(Route);
-            if (WSSubscriptionServer.Instance == null)
-                WSSubscriptionServer.Instance = new WSSubscriptionServer(wsUri.Host, wsUri.Port);
 
+            if (WSSubscriptionServer.Instance == null)
+                WSSubscriptionServer.Initialize(wsUri.Host, wsUri.Port);
+
+            while(!WSSubscriptionServer.Initialized)
+            {
+                System.Threading.Thread.Sleep(25);
+            }
             WSSubscriptionServer.Instance.AddSubscriptionRoute(wsUri.AbsolutePath, this);
             Behaviour = new WsBehaviour(this);
         }

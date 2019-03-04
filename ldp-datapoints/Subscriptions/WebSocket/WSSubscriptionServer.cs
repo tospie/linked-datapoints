@@ -10,11 +10,26 @@ namespace LDPDatapoints.Subscriptions.WebSocket
     public class WSSubscriptionServer
     {
 
-        public static WSSubscriptionServer Instance { get; set; }
+        public static WSSubscriptionServer Instance { get { return _instance; } }
+        private static WSSubscriptionServer _instance;
+
+        private static bool _initializing = false;
+        public static bool Initialized { get { return _initialized; } }
+        private static bool _initialized = false;
 
         private WebSocketServer server;
 
-        public WSSubscriptionServer(string host, int port)
+        public static void Initialize(string host, int port)
+        {
+            if (_instance == null && _initializing == false)
+            {
+                _initializing = true;
+                _instance = new WSSubscriptionServer(host, port);
+                _initialized = true;
+            }
+        }
+
+        private WSSubscriptionServer(string host, int port)
         {
             try
             {
