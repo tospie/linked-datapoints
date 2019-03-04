@@ -16,21 +16,16 @@ namespace LDPDatapoints.Resources
     public abstract class Resource
     {
         public string Route { get; private set; }
-        protected HttpRequestListener RequestListener { get; }
 
         public Resource(string route)
         {
             this.Route = route;
-            RequestListener = new HttpRequestListener(route.TrimEnd('/') + "/");
-            RequestListener.OnGet += onGet;
-            RequestListener.OnPut += onPut;
-            RequestListener.OnPost += onPost;
-            RequestListener.OnOptions += onOptions;
+            ResourceRequestDispatcher.Register(this);
         }
 
-        protected abstract void onGet(object sender, HttpEventArgs e);
-        protected abstract void onPut(object sender, HttpEventArgs e);
-        protected abstract void onPost(object sender, HttpEventArgs e);
-        protected abstract void onOptions(object sender, HttpEventArgs e);
+        public abstract void onGet(object sender, HttpEventArgs e);
+        public abstract void onPut(object sender, HttpEventArgs e);
+        public abstract void onPost(object sender, HttpEventArgs e);
+        public abstract void onOptions(object sender, HttpEventArgs e);
     }
 }
