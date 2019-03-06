@@ -18,7 +18,7 @@ namespace LDPDatapoints.Resources
         {
             Uri routeUri = new Uri(resource.Route);
             string basePath = resource.Route.Replace(routeUri.PathAndQuery, "").TrimEnd('/') + '/';
-            registeredResources.Add(resource.Route, resource);
+            registeredResources.Add(resource.Route.TrimEnd('/')+'/', resource);
 
             if (!basePathListeners.ContainsKey(basePath))
                 CreateBasePathListener(basePath);
@@ -58,7 +58,8 @@ namespace LDPDatapoints.Resources
 
             string requestedUrl = uri.ToString();
             if (uri.Query.Length > 0)
-                requestedUrl = requestedUrl.Substring(0, requestedUrl.IndexOf("?")).TrimEnd('/')+'/';
+                requestedUrl = requestedUrl.Substring(0, requestedUrl.IndexOf("?"));
+            requestedUrl = requestedUrl.TrimEnd('/') + '/';
             if (!registeredResources.ContainsKey(requestedUrl))
             {
                 context.Response.StatusCode = 404;
