@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="dotNetRDF" Version="2.0.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="websocket-sharp.clone" Version="3.0.0" />
   </ItemGroup>
 
